@@ -160,6 +160,9 @@ public class StatisticsBroker extends BrokerFilter {
                                 tempFirstMessage.clear();
                             }
                         }
+                        // NOTICE: Client-side, you may get the broker "now" Timestamp by msg.getJMSTimestamp()
+                        // This allows for calculating inactivity.
+                        statsMessage.setLong("lastMessageTimestamp", stats.getEnqueues().getLastSampleTime());
                         statsMessage.setJMSCorrelationID(messageSend.getCorrelationId());
                         sendStats(producerExchange.getConnectionContext(), statsMessage, replyTo);
                     }
